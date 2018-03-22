@@ -61,23 +61,23 @@ $(document).ready(function () {
         var tableVar = $("#train-table-body");
         tableVar.empty();
 
-        //loop through all objects in the snapshot object returned on value event
+        //loop through all objects in the nsap
         for (key in trainRecords) {
             console.log("in for loop");
 
             //validate # of records in the DB
             loop++;
-            console.log(loop);
+            // console.log(loop);
             keyForDummyUpdate = key;
-            console.log(key);
-            console.log(trainRecords[key]);
+            // console.log(key);
+            // console.log(trainRecords[key]);
             console.log(trainRecords[key].trainname);
             console.log(trainRecords[key].traindestination);
             console.log(trainRecords[key].trainfrequency);
             console.log(trainRecords[key].firsttraintime);
 
             var timeRightNow = moment();
-            var trainTimeConv = moment(trainRecords[key].firsttraintime, "HH:mm");
+            var trainTimeConv = moment(trainRecords[key].firsttraintime, "HH:mm").subtract(1, "years");
 
             console.log(trainTimeConv);
 
@@ -86,7 +86,7 @@ $(document).ready(function () {
             console.log("DIFFERENCE IN TIME: " + diffTime);
 
             //find the minutes ago the last train left
-            var remainder = Math.abs(diffTime) % trainRecords[key].trainfrequency;
+            var remainder = diffTime % trainRecords[key].trainfrequency;
             console.log(remainder);
 
             //find minutes until the next train
@@ -95,7 +95,7 @@ $(document).ready(function () {
 
             //find 
             var nextTrain = timeRightNow.add(minUntilNextTrain, "minutes")
-            console.log("new arrival time: " + moment(nextTrain).format("HH:mm"));
+            console.log("new arrival time: " + moment(nextTrain).format("hh:mm"));
 
             //----------------------------------------------------------------------
             // trainname  /  traindestination  /  trainfrequency  / firsttraintime /
@@ -140,7 +140,7 @@ $(document).ready(function () {
             traindestination: trainDestination,
             firsttraintime: firstTrainTime,
             trainfrequency: trainFrequency,
-            dummyParmUsedForScreenRefresh: dummyParmUsedForScreenRefresh
+            zdummyParmUsedForScreenRefresh: dummyParmUsedForScreenRefresh
         })
 
     });
@@ -152,15 +152,15 @@ $(document).ready(function () {
         $("#percent-progress-until-next-train").attr("style", "width:" + percentComplete + "%");
 
         countDownToNextTrain--; // deduct 1 second
-        console.log(countDownToNextTrain);
+        // console.log(countDownToNextTrain);
 
         //Leverage countdown to set the % complete progress bar (Bootstrap)
         //percent is counting up vs countDownToNextTrain is counting down
         // the 100/60 is the % to increment each second of the countdown then write it to the HTML progress bar
         percentComplete = (100 / 60) * (60 - countDownToNextTrain);
-        console.log("increment: " + (100 / 60) * (60 - countDownToNextTrain));
-        console.log("%:" + percentComplete);
-        console.log("should count from 0 to 100: " + (100 / 60) * (60 - countDownToNextTrain));
+        // console.log("increment: " + (100 / 60) * (60 - countDownToNextTrain));
+        // console.log("%:" + percentComplete);
+        // console.log("should count from 0 to 100: " + (100 / 60) * (60 - countDownToNextTrain));
         $("#percent-progress-until-next-train").attr("style", "width:" + percentComplete + "%");
 
         // write timer change to the screen
